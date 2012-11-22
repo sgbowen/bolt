@@ -70,12 +70,8 @@ package
         }
 
         public function onClick():void {
-            if (isSelected)
-                isSelected = false;
-            else {
-                game.updateBlocks();
-                isSelected = true;
-            }
+            game.updateBlocks();
+            isSelected = true;
         }
 
     }

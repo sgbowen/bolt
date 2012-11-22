@@ -17,7 +17,7 @@ package
             
             blockGroup = new FlxGroup();
             blockGroup.add(new Block(48, 48, this));
-            //blockGroup.add(new Block(125, 50, this));
+            blockGroup.add(new Block(125, 50, this));
             //add(new FlxText(0, 0, 100, "Hello, World!"));
             add(blockGroup);
             //add(new Block(50, 125, true));
@@ -25,7 +25,7 @@ package
         }
 
         public function updateBlocks():void {
-            for each(var block:Block in blockGroup) 
+            for each(var block:Block in blockGroup.members)
                 block.isSelected = false;
         }
     }
