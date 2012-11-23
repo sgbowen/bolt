@@ -28,11 +28,17 @@ package
             add(bg);
             
             blockGroup = new FlxGroup();
-            blockGroup.add(new Block(48, 48, this));
-            blockGroup.add(new Block(144, 48, this));
+            blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), this));
+            blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), this));
 
             //add(new FlxText(0, 0, 100, "Hello, World!"));
+
+            for each (var block:Block in blockGroup.members) {
+                add(block.destination);
+            }
+
             add(blockGroup);
+
             add(record_button = new Record(624, 672, this));
             add(play_button = new Play(672, 672, this));
             add(counter = new Counter(576, 672, time_steps));
@@ -67,7 +73,9 @@ package
 
         public function timerHandler():void {
             stepBlocks(cur_time_step);
-            if (!checkBlockOverlap()) {
+            if (checkWin()) {
+                add(new FlxText(0, 0, 100, "You win!"));
+            } else if (!checkBlockOverlap()) {
                 if (cur_time_step < time_steps - 1) {
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
@@ -86,6 +94,16 @@ package
             }
 
             return false;
+        }
+
+        public function checkWin():Boolean {
+            for each (var block:Block in blockGroup.members) {
+                if (!block.destination.hit) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

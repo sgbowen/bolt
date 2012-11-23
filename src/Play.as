@@ -25,8 +25,10 @@ package
         }
 
         public function deselect():void {
-            if (isSelected)
+            if (isSelected) {
                 makeGraphic(48, 48, 0xff00ff00);
+                isSelected = false;
+            }
         }
 
     }

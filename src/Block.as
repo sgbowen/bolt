@@ -30,18 +30,18 @@ package
         public var isSelected:Boolean;
         private var game:PlayState = new PlayState();
         
-        private var startx:uint;
-        private var starty:uint;
+        private var startPos:Position;
+        public var destination:Destination;
         private var recorded_moves:ArrayList;
 
-        public function Block(x:uint, y:uint, game:PlayState) {
-            super(x, y);
+        public function Block(initial:Position, destination:Position, game:PlayState) {
+            super(initial.x, initial.y);
             loadGraphic(sprite_down);
             isSelected = false;
             onDown = onClick;
-            startx = x;
-            starty = y;
+            this.startPos = initial;
             this.game = game;
+            this.destination = new Destination(destination, this);
             recorded_moves = new ArrayList();
         }
 
@@ -102,9 +102,9 @@ package
         }
 
         public function resetPos():void {
-            x = startx;
-            y = starty;
-            facing = FlxObject.DOWN;
+            x = startPos.x;
+            y = startPos.y;
+            this.facing = FlxObject.DOWN;
         }
 
         public function step(time_step:int):void {
