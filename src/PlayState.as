@@ -16,6 +16,7 @@ package
         private var record_button:Record;
         private var time_steps:int;
         private var cur_time_step:int;
+        public var counter:Counter;
 
         override public function create():void
         {
@@ -28,12 +29,13 @@ package
             
             blockGroup = new FlxGroup();
             blockGroup.add(new Block(48, 48, this));
-            blockGroup.add(new Block(125, 50, this));
+            blockGroup.add(new Block(144, 48, this));
 
             //add(new FlxText(0, 0, 100, "Hello, World!"));
             add(blockGroup);
             add(record_button = new Record(624, 672, this));
             add(play_button = new Play(672, 672, this));
+            add(counter = new Counter(576, 672, time_steps));
             //add(new Block(50, 125, true));
             //add(new Block(125, 50, false));
         }
@@ -65,10 +67,25 @@ package
 
         public function timerHandler():void {
             stepBlocks(cur_time_step);
-            if (cur_time_step < time_steps) {
-                cur_time_step++;
-                setTimeout(timerHandler, 250);
+            if (!checkBlockOverlap()) {
+                if (cur_time_step < time_steps - 1) {
+                    cur_time_step++;
+                    setTimeout(timerHandler, 250);
+                }
             }
+        }
+
+        public function checkBlockOverlap():Boolean {
+            for each (var block:Block in blockGroup.members) {
+                for each (var other:Block in blockGroup.members) {
+                    if (block != other && block.overlaps(other)) {
+                        resetBlocks();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

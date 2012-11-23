@@ -21,6 +21,12 @@ package
         private static const GAME_WIDTH:int = 720;
         private static const GAME_HEIGHT:int = 720;
 
+        private static const NO_MOVE:int = 0;
+        private static const MOVE_LEFT:int = 1;
+        private static const MOVE_RIGHT:int = 2;
+        private static const MOVE_UP:int = 3;
+        private static const MOVE_DOWN:int = 4;
+
         public var isSelected:Boolean;
         private var game:PlayState = new PlayState();
         
@@ -45,13 +51,21 @@ package
         }
 
         public function handleInput():void {
-            if (isSelected && game.isRecording) {
+            if (isSelected && game.isRecording && !game.counter.out()) {
+                if (processMovement() > 0) {
+                    recorded_moves.addItem(new Position(x, y));
+                    game.counter.decrement();
+                }
+            }
+        }
+        
+        public function processMovement():int {
                 if ((FlxG.keys.justPressed("LEFT") 
                     || FlxG.keys.justPressed("A")) && this.x >= SQUARE) {
                     this.x -= SQUARE;
                     this.facing = FlxObject.LEFT;
                     loadGraphic(sprite_left);
-                    recorded_moves.addItem(new Position(x, y));
+                    return MOVE_LEFT;
                 } 
                 else if ((FlxG.keys.justPressed("RIGHT") 
                     || FlxG.keys.justPressed("D")) 
@@ -59,7 +73,7 @@ package
                     this.x += SQUARE;
                     this.facing = FlxObject.RIGHT;
                     loadGraphic(sprite_right);
-                    recorded_moves.addItem(new Position(x, y));
+                    return MOVE_RIGHT;
                 } 
                 else if ((FlxG.keys.justPressed("DOWN")
                     || FlxG.keys.justPressed("S")) 
@@ -67,7 +81,7 @@ package
                     this.y += SQUARE;
                     this.facing = FlxObject.DOWN;
                     loadGraphic(sprite_down);
-                    recorded_moves.addItem(new Position(x, y));
+                    return MOVE_DOWN;
                 } 
                 else if ((FlxG.keys.justPressed("UP")
                     || FlxG.keys.justPressed("W")) 
@@ -75,12 +89,14 @@ package
                     this.y -= SQUARE;
                     this.facing = FlxObject.UP;
                     loadGraphic(sprite_up);
-                    recorded_moves.addItem(new Position(x, y));
-                } 
-            }
+                    return MOVE_UP;
+                } else {
+                    return NO_MOVE;
+                }
         }
 
         public function onClick():void {
+            erase_recording();
             game.updateBlocks();
             isSelected = true;
         }
@@ -97,6 +113,10 @@ package
                 x = pos.x;
                 y = pos.y;
             }
+        }
+        
+        public function erase_recording():void {
+            recorded_moves = new ArrayList();
         }
 
     }

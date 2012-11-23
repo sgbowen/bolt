@@ -20,6 +20,7 @@ package
             if (!isSelected && !(game.isPlaying)) {
                 isSelected = true;
                 game.isRecording = true;
+                game.counter.reset_count();
                 makeGraphic(48, 48, 0xffff0000);
             } else {
                 isSelected = false;
