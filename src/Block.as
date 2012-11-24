@@ -34,14 +34,15 @@ package
         public var destination:Destination;
         private var recorded_moves:ArrayList;
 
-        public function Block(initial:Position, destination:Position, game:PlayState) {
+        public function Block(initial:Position, destination:Position, tint:uint, game:PlayState) {
             super(initial.x, initial.y);
             loadGraphic(sprite_down);
             isSelected = false;
             onDown = onClick;
             this.startPos = initial;
             this.game = game;
-            this.destination = new Destination(destination, this);
+            this.destination = new Destination(destination, tint, this);
+            this.color = tint;
             recorded_moves = new ArrayList();
         }
 

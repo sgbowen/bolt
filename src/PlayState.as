@@ -28,8 +28,8 @@ package
             add(bg);
             
             blockGroup = new FlxGroup();
-            blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), this));
-            blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), this));
+            blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), 0xff0000, this));
+            blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), 0x00ff00, this));
 
             //add(new FlxText(0, 0, 100, "Hello, World!"));
 
