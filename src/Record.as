@@ -5,6 +5,9 @@ package
     public class Record extends FlxButton
     {
 
+        [Embed(source="../art/record-button-unpressed.png")] private var record_button_unpressed:Class;
+        [Embed(source="../art/record-button-pressed.png")] private var record_button_pressed:Class;
+
         private var game:PlayState;
         public var isSelected:Boolean;
 
@@ -13,7 +16,7 @@ package
             this.game = game;
             onDown = onClick;
             isSelected = false;
-            makeGraphic(48, 48, 0xff00ff00);
+            loadGraphic(record_button_unpressed);
         }
 
         public function onClick():void {
@@ -21,12 +24,13 @@ package
                 isSelected = true;
                 game.isRecording = true;
                 game.counter.reset_count();
-                makeGraphic(48, 48, 0xffff0000);
+                loadGraphic(record_button_pressed);
             } else {
                 isSelected = false;
                 game.isRecording = false;
+                game.updateBlocks();
                 game.resetBlocks();
-                makeGraphic(48, 48, 0xff00ff00);
+                loadGraphic(record_button_unpressed);
             }
         }
 

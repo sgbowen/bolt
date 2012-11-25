@@ -14,9 +14,11 @@ package
         [Embed(source="../art/sprite-right.png")] private var sprite_right:Class;
         [Embed(source="../art/sprite-up.png")] private var sprite_up:Class;
         [Embed(source="../art/sprite-down.png")] private var sprite_down:Class;
+        [Embed(source="../art/sprite-left-selected.png")] private var sprite_left_selected:Class;
+        [Embed(source="../art/sprite-right-selected.png")] private var sprite_right_selected:Class;
+        [Embed(source="../art/sprite-up-selected.png")] private var sprite_up_selected:Class;
+        [Embed(source="../art/sprite-down-selected.png")] private var sprite_down_selected:Class;
 
-        private static const WIDTH:uint = 32;
-        private static const SPEED:int = 150;
         private static const SQUARE:int = 48;
         private static const GAME_WIDTH:int = 720;
         private static const GAME_HEIGHT:int = 720;
@@ -65,7 +67,7 @@ package
                     || FlxG.keys.justPressed("A")) && this.x >= SQUARE) {
                     this.x -= SQUARE;
                     this.facing = FlxObject.LEFT;
-                    loadGraphic(sprite_left);
+                    loadGraphic(sprite_left_selected);
                     return MOVE_LEFT;
                 } 
                 else if ((FlxG.keys.justPressed("RIGHT") 
@@ -73,7 +75,7 @@ package
                     && this.x <= GAME_WIDTH - 2 * SQUARE) {
                     this.x += SQUARE;
                     this.facing = FlxObject.RIGHT;
-                    loadGraphic(sprite_right);
+                    loadGraphic(sprite_right_selected);
                     return MOVE_RIGHT;
                 } 
                 else if ((FlxG.keys.justPressed("DOWN")
@@ -81,7 +83,7 @@ package
                     && this.y <= GAME_HEIGHT - 2 * SQUARE) {
                     this.y += SQUARE;
                     this.facing = FlxObject.DOWN;
-                    loadGraphic(sprite_down);
+                    loadGraphic(sprite_down_selected);
                     return MOVE_DOWN;
                 } 
                 else if ((FlxG.keys.justPressed("UP")
@@ -89,7 +91,7 @@ package
                     && this.y >= SQUARE) {
                     this.y -= SQUARE;
                     this.facing = FlxObject.UP;
-                    loadGraphic(sprite_up);
+                    loadGraphic(sprite_up_selected);
                     return MOVE_UP;
                 } else {
                     return NO_MOVE;
@@ -97,9 +99,11 @@ package
         }
 
         public function onClick():void {
+            resetPos();
             erase_recording();
             game.updateBlocks();
             isSelected = true;
+            loadGraphic(sprite_down_selected);
         }
 
         public function resetPos():void {

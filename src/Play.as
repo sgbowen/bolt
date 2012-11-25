@@ -5,6 +5,9 @@ package
     public class Play extends FlxButton
     {
 
+        [Embed(source="../art/play-button-unpressed.png")] private var play_button_unpressed:Class;
+        [Embed(source="../art/play-button-pressed.png")] private var play_button_pressed:Class;
+
         private var game:PlayState;
         public var isSelected:Boolean;
 
@@ -13,20 +16,20 @@ package
             this.game = game;
             onDown = onClick;
             isSelected = false;
-            makeGraphic(48, 48, 0xff00ff00);
+            loadGraphic(play_button_unpressed);
         }
 
         public function onClick():void {
             if (!isSelected) {
                 isSelected = true;
-                makeGraphic(48, 48, 0xffff0000);
+                loadGraphic(play_button_pressed);
                 game.playBlocks();
             } 
         }
 
         public function deselect():void {
             if (isSelected) {
-                makeGraphic(48, 48, 0xff00ff00);
+                loadGraphic(play_button_unpressed);
                 isSelected = false;
             }
         }
