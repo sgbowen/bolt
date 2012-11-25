@@ -13,10 +13,11 @@ package
         private var block:Block;
         public var hit:Boolean;
 
-        public function Destination (initial:Position, block:Block) {
+        public function Destination (initial:Position, tint:uint, block:Block) {
             super(initial.x, initial.y);
             this.block = block;
             this.hit = false;
+            this.color = tint;
             loadGraphic(img_unselected);
         }
 
