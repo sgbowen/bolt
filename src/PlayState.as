@@ -72,7 +72,7 @@ package
             if (checkWin()) {
                 add(new FlxText(0, 0, 100, "You win!"));
             } else if (!checkBlockOverlap()) {
-                if (cur_time_step < time_steps - 1) {
+                if (cur_time_step < time_steps) {
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
                     return;
