@@ -8,7 +8,8 @@ package
 
         [Embed(source = "../art/bg-scaled.png")] protected var backdrop_img:Class;
 
-        public var blockGroup:FlxGroup;
+        public var level:LevelMap;
+        //public var blockGroup:FlxGroup;
         private var bg:BackDrop;
         public var isRecording:Boolean;
         public var isPlaying:Boolean;
@@ -26,18 +27,22 @@ package
 
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
-            
-            blockGroup = new FlxGroup();
-            blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), 0xff00ff, this));
-            blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), 0x00ffff, this));
-            blockGroup.add(new Block(new Position(240, 48), new Position(432, 240), 0xffff00, this));
-            blockGroup.add(new Block(new Position(336, 48), new Position(528, 240), 0x222222, this));
 
-            for each (var block:Block in blockGroup.members) {
+            level = new LevelMap("demo", this);
+            level.draw();
+            
+            //blockGroup = new FlxGroup();
+            //blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), 0xff00ff, this));
+            //blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), 0x00ffff, this));
+            //blockGroup.add(new Block(new Position(240, 48), new Position(432, 240), 0xffff00, this));
+            //blockGroup.add(new Block(new Position(336, 48), new Position(528, 240), 0x222222, this));
+            //add(new FlxText(0, 0, 100, "Hello, World!"));
+
+            for each (var block:Block in level.blockGroup.members) {
                 add(block.destination);
             }
 
-            add(blockGroup);
+            add(level.blockGroup);
 
             add(record_button = new Record(720, 48, this));
             add(play_button = new Play(720, 96, this));
@@ -45,12 +50,12 @@ package
         }
 
         public function updateBlocks():void {
-            for each(var block:Block in blockGroup.members)
+            for each(var block:Block in level.blockGroup.members)
                 block.isSelected = false;
         }
 
         public function resetBlocks():void {
-            for each(var block:Block in blockGroup.members)
+            for each(var block:Block in level.blockGroup.members)
                 block.resetPos();
         }
 
@@ -63,7 +68,7 @@ package
         }
 
         public function stepBlocks(time_step:int):void {
-            for each (var block:Block in blockGroup.members)
+            for each (var block:Block in level.blockGroup.members)
                     block.step(cur_time_step);
         }
 
@@ -83,8 +88,8 @@ package
         }
 
         public function checkBlockOverlap():Boolean {
-            for each (var block:Block in blockGroup.members) {
-                for each (var other:Block in blockGroup.members) {
+            for each (var block:Block in level.blockGroup.members) {
+                for each (var other:Block in level.blockGroup.members) {
                     if (block != other && block.overlaps(other)) {
                         resetBlocks();
                         return true;
@@ -96,7 +101,7 @@ package
         }
 
         public function checkWin():Boolean {
-            for each (var block:Block in blockGroup.members) {
+            for each (var block:Block in level.blockGroup.members) {
                 if (!block.destination.hit) {
                     return false;
                 }
