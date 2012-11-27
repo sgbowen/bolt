@@ -13,7 +13,7 @@ package
         private var bg:BackDrop;
         public var isRecording:Boolean;
         public var isPlaying:Boolean;
-        private var play_button:Play;
+        private var play_button:PlayButton;
         private var record_button:Record;
         private var time_steps:int;
         private var cur_time_step:int;
@@ -45,7 +45,7 @@ package
             add(level.blockGroup);
 
             add(record_button = new Record(720, 48, this));
-            add(play_button = new Play(720, 96, this));
+            add(play_button = new PlayButton(720, 96, this));
             add(counter = new Counter(720, 0, time_steps));
         }
 

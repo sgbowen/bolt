@@ -2,7 +2,7 @@ package
 {
     import org.flixel.FlxButton
 
-    public class Play extends FlxButton
+    public class PlayButton extends FlxButton
     {
 
         [Embed(source="../art/play-button-unpressed.png")] private var play_button_unpressed:Class;
@@ -11,7 +11,7 @@ package
         private var game:PlayState;
         public var isSelected:Boolean;
 
-        public function Play (x:uint, y:uint, game:PlayState) {
+        public function PlayButton (x:uint, y:uint, game:PlayState) {
             super(x, y);
             this.game = game;
             onDown = onClick;
