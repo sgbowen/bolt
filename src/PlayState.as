@@ -19,6 +19,8 @@ package
         private var cur_time_step:int;
         public var counter:Counter;
 
+        private const TILE_LENGTH:uint = 50;
+
         override public function create():void
         {
             isRecording = false;
@@ -29,7 +31,8 @@ package
             add(bg);
 
             level = new LevelMap("demo", this);
-            level.draw();
+            //level.draw();
+            add(level);
             
             //blockGroup = new FlxGroup();
             //blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), 0xff00ff, this));
@@ -44,7 +47,9 @@ package
 
             add(level.blockGroup);
 
-            add(record_button = new Record(720, 48, this));
+           
+            record_button = new Record(720, 48, this);
+            add(record_button);
             add(play_button = new PlayButton(720, 96, this));
             add(counter = new Counter(720, 0, time_steps));
         }

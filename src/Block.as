@@ -65,34 +65,42 @@ package
         public function processMovement():int {
                 if ((FlxG.keys.justPressed("LEFT") 
                     || FlxG.keys.justPressed("A")) && this.x >= SQUARE) {
-                    this.x -= SQUARE;
                     this.facing = FlxObject.LEFT;
                     loadGraphic(sprite_left_selected);
-                    return MOVE_LEFT;
+                    if(this.game.level.getTile(this.x/SQUARE-1, this.y/SQUARE) == 0) {
+                    this.x -= SQUARE;
+                    return MOVE_LEFT; }
+                    else { return NO_MOVE; }
                 } 
                 else if ((FlxG.keys.justPressed("RIGHT") 
                     || FlxG.keys.justPressed("D")) 
                     && this.x <= GAME_WIDTH - 2 * SQUARE) {
-                    this.x += SQUARE;
                     this.facing = FlxObject.RIGHT;
                     loadGraphic(sprite_right_selected);
-                    return MOVE_RIGHT;
+                    if(this.game.level.getTile(this.x/SQUARE+1, this.y/SQUARE) == 0) {
+                    this.x += SQUARE;
+                    return MOVE_RIGHT; }
+                    else { return NO_MOVE; }
                 } 
                 else if ((FlxG.keys.justPressed("DOWN")
                     || FlxG.keys.justPressed("S")) 
                     && this.y <= GAME_HEIGHT - 2 * SQUARE) {
-                    this.y += SQUARE;
                     this.facing = FlxObject.DOWN;
                     loadGraphic(sprite_down_selected);
-                    return MOVE_DOWN;
+                    if(this.game.level.getTile(this.x/SQUARE, this.y/SQUARE+1) == 0) {
+                    this.y += SQUARE;
+                    return MOVE_DOWN; }
+                    else { return NO_MOVE; }
                 } 
                 else if ((FlxG.keys.justPressed("UP")
                     || FlxG.keys.justPressed("W")) 
                     && this.y >= SQUARE) {
-                    this.y -= SQUARE;
                     this.facing = FlxObject.UP;
                     loadGraphic(sprite_up_selected);
-                    return MOVE_UP;
+                    if(this.game.level.getTile(this.x/SQUARE, this.y/SQUARE-1) == 0) {
+                    this.y -= SQUARE;
+                    return MOVE_UP; }
+                    else { return NO_MOVE; }
                 } else {
                     return NO_MOVE;
                 }
