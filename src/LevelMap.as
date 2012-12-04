@@ -18,6 +18,7 @@ package
       [Embed(source = "levels/default.txt", mimeType = 'application/octet-stream')]private static var default_default:Class;
       [Embed(source = "levels/demo.txt", mimeType = 'application/octet-stream')]private static var default_demo:Class;
       [Embed(source = "levels/tiles1.txt", mimeType = 'application/octet-stream')]private static var default_tiles1:Class;
+      [Embed(source = "levels/time.txt", mimeType = 'application/octet-stream')]private static var default_time:Class;
 
       public function LevelMap(mapNameInput:String, game:PlayState) {
         super();
@@ -38,6 +39,24 @@ package
         mapName = "Tiles #1";
         blockGroup = new FlxGroup();
         blockGroup.add(new Block(new Position((6*48), (6*48)), new Position((8*48), (6*48)), 0xff00ff, game));
+        }
+        else if(mapNameInput == "time") {
+        loadMap(new default_time(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);
+        mapTime = 42;
+        mapName = "Time";
+        blockGroup = new FlxGroup();
+        blockGroup.add(new Block(new Position((7*48), (3*48)), new Position((9*48), (4*48)), 0x40a0ff, game));
+        blockGroup.add(new Block(new Position((3*48), (7*48)), new Position((10*48), (5*48)), 0x0000bf, game));
+        blockGroup.add(new Block(new Position((9*48), (4*48)), new Position((11*48), (7*48)), 0xa040ff, game));
+        blockGroup.add(new Block(new Position((10*48), (9*48)), new Position((10*48), (9*48)), 0xbf00bf, game));
+        blockGroup.add(new Block(new Position((9*48), (10*48)), new Position((9*48), (10*48)), 0xff40a0, game));
+        blockGroup.add(new Block(new Position((4*48), (9*48)), new Position((7*48), (11*48)), 0xbf0000, game));
+        blockGroup.add(new Block(new Position((5*48), (4*48)), new Position((5*48), (10*48)), 0xffa040, game));
+        blockGroup.add(new Block(new Position((4*48), (5*48)), new Position((4*48), (9*48)), 0xbfbf00, game));
+        blockGroup.add(new Block(new Position((10*48), (5*48)), new Position((3*48), (7*48)), 0xa0ff40, game));
+        blockGroup.add(new Block(new Position((11*48), (7*48)), new Position((4*48), (5*48)), 0x00bf00, game));
+        blockGroup.add(new Block(new Position((5*48), (10*48)), new Position((5*48), (4*48)), 0x40ffa0, game));
+        blockGroup.add(new Block(new Position((7*48), (11*48)), new Position((7*48), (3*48)), 0x00bfbf, game));
         }
         else {
         loadMap(new default_default(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);

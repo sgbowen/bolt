@@ -18,6 +18,8 @@ package
         private var time_steps:int;
         private var cur_time_step:int;
         public var counter:Counter;
+        public var levelNames:Array;
+        public var levelCurrent:uint;
 
         private const TILE_LENGTH:uint = 50;
 
@@ -26,11 +28,13 @@ package
             isRecording = false;
             isPlaying = false;
             time_steps = 15;
+            levelCurrent = 0;
+            levelNames = new Array("demo","tiles1","time","default");
 
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
 
-            level = new LevelMap("thisisnotareallevel", this);
+            level = new LevelMap(levelNames[levelCurrent], this);
             time_steps = level.mapTime;
             //level.draw();
             add(level);
@@ -96,7 +100,8 @@ package
         public function timerHandler():void {
             if (!stepBlocks(cur_time_step)) {
                 if (checkWin()) {
-                    add(new FlxText(0, 0, 100, "You win!"));
+                    add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
+                    setTimeout(levelUp, 2000);
                 }
                 resetBlocks();
                 play_button.deselect();
@@ -104,7 +109,11 @@ package
                 return;
             }
             if (checkWin()) {
-                add(new FlxText(0, 0, 100, "You win!"));
+                var tex:FlxText;
+                tex = new FlxText(0, FlxG.height/2-100, FlxG.width, "You won!!!\nYou are truly a master of puzzling.");
+                tex.size = 32;
+                tex.alignment = "center";
+                add(tex);
             } else if (!checkBlockOverlap()) {
                 if (cur_time_step < time_steps) {
                     cur_time_step++;
@@ -150,6 +159,30 @@ package
                 }
             }
 
+            return true;
+        }
+
+        public function levelUp():Boolean {
+           clear();
+           levelCurrent++;
+           add(bg);
+            
+            if(levelCurrent >= levelNames.length) {
+                return false; }
+            level = new LevelMap(levelNames[levelCurrent], this);
+            time_steps = level.mapTime;
+            //level.draw();
+            add(level);
+            
+            for each (var block:Block in level.blockGroup.members) {
+                add(block.destination);
+            }
+            add(level.blockGroup);
+           
+            record_button = new Record(720, 48, this);
+            add(record_button);
+            add(play_button = new PlayButton(720, 96, this));
+            add(counter = new Counter(720, 0, time_steps));
             return true;
         }
     }
