@@ -73,22 +73,36 @@ package
 
         }
 
-        public function stepBlocks(time_step:int):void { //modify this
+        public function stepBlocks(time_step:int):Boolean { //modify this
+            var steps_left:Boolean = false;
             for each (var block:Block in level.blockGroup.members) {
-              var safe:Boolean = true; //check to make sure blocks don't move through each other
               for each (var other:Block in level.blockGroup.members)
               {
                 var blockPos:Position = block.getNewPos(cur_time_step);
                 var otherPos:Position = other.getNewPos(cur_time_step);
-                if ((blockPos.x == other.x && blockPos.y == other.y) && (block.x == otherPos.x && block.y == otherPos.y))
-                { safe = false; }
+                if (block != other && (blockPos.x == other.x && blockPos.y == other.y) && (block.x == otherPos.x && block.y == otherPos.y))
+                { 
+                    collide(block, other);
+                    return false;
+                }
               }
-              if(safe) { block.step(cur_time_step); }
+              if (block.step(cur_time_step) && !steps_left) {
+                  steps_left = true;
+              } 
             }
+            return steps_left;
         }
 
         public function timerHandler():void {
-            stepBlocks(cur_time_step);
+            if (!stepBlocks(cur_time_step)) {
+                if (checkWin()) {
+                    add(new FlxText(0, 0, 100, "You win!"));
+                }
+                resetBlocks();
+                play_button.deselect();
+                isPlaying = false;
+                return;
+            }
             if (checkWin()) {
                 add(new FlxText(0, 0, 100, "You win!"));
             } else if (!checkBlockOverlap()) {
@@ -98,8 +112,15 @@ package
                     return;
                 }
             }
+            resetBlocks();
             play_button.deselect();
             isPlaying = false;
+        }
+
+        public function collide(block:Block, other:Block):void {
+                block.highlightTemp(0xffff0000);
+                other.highlightTemp(0xffff0000);
+                setTimeout(detectedCollision, 500);
         }
 
         public function detectedCollision():void {
@@ -113,9 +134,7 @@ package
             for each (var block:Block in level.blockGroup.members) {
                 for each (var other:Block in level.blockGroup.members) {
                     if (block != other && block.overlaps(other)) {
-                        block.highlightTemp(0xffff0000);
-                        other.highlightTemp(0xffff0000);
-                        setTimeout(detectedCollision, 500);
+                        collide(block, other);
                         return true;
                     }
                 }

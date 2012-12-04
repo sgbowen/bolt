@@ -131,7 +131,7 @@ package
             this.facing = FlxObject.DOWN;
         }
 
-        public function step(time_step:int):void {
+        public function step(time_step:int):Boolean {
             if (time_step < recorded_moves.length) {
                 var movedir:uint = uint(recorded_moves.getItemAt(time_step));
                 if (movedir == 1 && this.game.level.getTile(this.x/SQUARE-1, this.y/SQUARE) == 0) { //left
@@ -156,8 +156,9 @@ package
                 }
                 else if (movedir == 5) { //stall
                 }
-                else {
-                }
+                return true;
+            } else {
+                return false;
             }
         }
         
