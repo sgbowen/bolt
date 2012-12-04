@@ -25,7 +25,7 @@ package
         {
             isRecording = false;
             isPlaying = false;
-            time_steps = 10;
+            time_steps = 15;
 
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);

@@ -28,6 +28,7 @@ package
         private static const MOVE_RIGHT:int = 2;
         private static const MOVE_UP:int = 3;
         private static const MOVE_DOWN:int = 4;
+        private static const MOVE_STALL:int = 5;
 
         public var isSelected:Boolean;
         private var game:PlayState = new PlayState();
@@ -101,7 +102,11 @@ package
                     this.y -= SQUARE;
                     return MOVE_UP; }
                     else { return NO_MOVE; }
-                } else {
+                }
+                else if (FlxG.keys.justPressed("SPACE")) {
+                    return MOVE_STALL; 
+                } 
+                else {
                     return NO_MOVE;
                 }
         }
