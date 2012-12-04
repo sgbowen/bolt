@@ -31,6 +31,7 @@ package
             add(bg);
 
             level = new LevelMap("demo", this);
+            time_steps = level.mapTime;
             //level.draw();
             add(level);
             
@@ -72,9 +73,18 @@ package
 
         }
 
-        public function stepBlocks(time_step:int):void {
-            for each (var block:Block in level.blockGroup.members)
-                    block.step(cur_time_step);
+        public function stepBlocks(time_step:int):void { //modify this
+            for each (var block:Block in level.blockGroup.members) {
+              var safe:Boolean = true; //check to make sure blocks don't move through each other
+              for each (var other:Block in level.blockGroup.members)
+              {
+                var blockPos:Position = block.getNewPos(cur_time_step);
+                var otherPos:Position = other.getNewPos(cur_time_step);
+                if ((blockPos.x == other.x && blockPos.y == other.y) && (block.x == otherPos.x && block.y == otherPos.y))
+                { safe = false; }
+              }
+              if(safe) { block.step(cur_time_step); }
+            }
         }
 
         public function timerHandler():void {

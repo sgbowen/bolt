@@ -11,6 +11,7 @@ package
       private var maxhei:uint = 15;
       private var TILE_LENGTH:uint = 48;
       public var mapName:String;
+      public var mapTime:uint;
       public var blockGroup:FlxGroup; 
 
       [Embed(source = "/../art/tiles.png")] public static const large_tiles:Class;
@@ -19,6 +20,7 @@ package
       public function LevelMap(mapNameInput:String, game:PlayState) {
         super();
         loadMap(new default_demo(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);
+        mapTime = 20;
         mapName = mapNameInput;
         blockGroup = new FlxGroup();
         blockGroup.add(new Block(new Position(48, 240), new Position(432, 48), 0xff00ff, game));
