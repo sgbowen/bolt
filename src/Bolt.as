@@ -7,7 +7,7 @@ package
     {
         public function Bolt()
         {
-            super(768, 720, PlayState, 1, 60, 30, true);
+            super(768, 720, MenuState, 1, 60, 30, true);
         }
     }
 
