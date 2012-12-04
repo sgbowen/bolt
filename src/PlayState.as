@@ -92,11 +92,20 @@ package
             isPlaying = false;
         }
 
+        public function detectedCollision():void {
+            resetBlocks();
+            for each (var block:Block in level.blockGroup.members) {
+                block.resetColor();
+            }
+        }
+
         public function checkBlockOverlap():Boolean {
             for each (var block:Block in level.blockGroup.members) {
                 for each (var other:Block in level.blockGroup.members) {
                     if (block != other && block.overlaps(other)) {
-                        resetBlocks();
+                        block.highlightTemp(0xffff0000);
+                        other.highlightTemp(0xffff0000);
+                        setTimeout(detectedCollision, 500);
                         return true;
                     }
                 }

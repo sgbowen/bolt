@@ -36,6 +36,7 @@ package
         private var startPos:Position;
         public var destination:Destination;
         private var recorded_moves:ArrayList;
+        private var tint:uint;
 
         public function Block(initial:Position, destination:Position, tint:uint, game:PlayState) {
             super(initial.x, initial.y);
@@ -46,6 +47,7 @@ package
             this.game = game;
             this.destination = new Destination(destination, tint, this);
             this.color = tint;
+            this.tint = tint;
             recorded_moves = new ArrayList();
         }
 
@@ -135,6 +137,14 @@ package
         
         public function erase_recording():void {
             recorded_moves = new ArrayList();
+        }
+
+        public function highlightTemp(tint:uint):void {
+            this.color = tint;
+        }
+
+        public function resetColor():void {
+            this.color = this.tint;
         }
 
     }
