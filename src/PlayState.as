@@ -30,7 +30,7 @@ package
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
 
-            level = new LevelMap("demo", this);
+            level = new LevelMap("thisisnotareallevel", this);
             time_steps = level.mapTime;
             //level.draw();
             add(level);
