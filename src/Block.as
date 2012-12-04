@@ -28,6 +28,7 @@ package
         private static const MOVE_RIGHT:int = 2;
         private static const MOVE_UP:int = 3;
         private static const MOVE_DOWN:int = 4;
+        private static const MOVE_STALL:int = 5;
 
         public var isSelected:Boolean;
         private var game:PlayState = new PlayState();
@@ -55,8 +56,9 @@ package
 
         public function handleInput():void {
             if (isSelected && game.isRecording && !game.counter.out()) {
-                if (processMovement() > 0) {
-                    recorded_moves.addItem(new Position(x, y));
+                var movedir:uint = processMovement();
+                if (movedir > 0) {
+                    recorded_moves.addItem(movedir);
                     game.counter.decrement();
                 }
             }
@@ -101,10 +103,16 @@ package
                     this.y -= SQUARE;
                     return MOVE_UP; }
                     else { return NO_MOVE; }
+                }
+                else if ((FlxG.keys.justPressed("SHIFT")
+                    || FlxG.keys.justPressed("Q")) 
+                    && this.y >= SQUARE) {
+                    return MOVE_STALL;
                 } else {
                     return NO_MOVE;
                 }
         }
+
 
         public function onClick():void {
             resetPos();
@@ -122,10 +130,60 @@ package
 
         public function step(time_step:int):void {
             if (time_step < recorded_moves.length) {
-                var pos:Position = Position(recorded_moves.getItemAt(time_step));
-                x = pos.x;
-                y = pos.y;
+                var movedir:uint = uint(recorded_moves.getItemAt(time_step));
+                if (movedir == 1 && this.game.level.getTile(this.x/SQUARE-1, this.y/SQUARE) == 0) { //left
+                  x = x-SQUARE;
+                  this.facing = FlxObject.LEFT;
+                  loadGraphic(sprite_left_selected);
+                }
+                else if (movedir == 2 && this.game.level.getTile(this.x/SQUARE+1, this.y/SQUARE) == 0) { //right
+                  x = x+SQUARE;
+                  this.facing = FlxObject.RIGHT;
+                  loadGraphic(sprite_right_selected);
+                }
+                else if (movedir == 3 && this.game.level.getTile(this.x/SQUARE, this.y/SQUARE-1) == 0) { //up
+                  y = y-SQUARE;
+                  this.facing = FlxObject.UP;
+                  loadGraphic(sprite_up_selected);
+                }
+                else if (movedir == 4 && this.game.level.getTile(this.x/SQUARE, this.y/SQUARE+1) == 0) { //down
+                  y = y+SQUARE;
+                  this.facing = FlxObject.DOWN;
+                  loadGraphic(sprite_down_selected);
+                }
+                else if (movedir == 5) { //stall
+                }
+                else {
+                }
             }
+        }
+        
+        public function getNewPos(time_step:int):Position {
+            if (time_step < recorded_moves.length) {
+                var movedir:uint = uint(recorded_moves.getItemAt(time_step));
+                if (movedir == 1 && this.game.level.getTile(this.x/SQUARE-1, this.y/SQUARE) == 0) { //left
+                  var posnew:Position = new Position(x-SQUARE, y);
+                  return posnew;
+                }
+                else if (movedir == 2 && this.game.level.getTile(this.x/SQUARE+1, this.y/SQUARE) == 0) { //right
+                  var posnew2:Position = new Position(x+SQUARE, y);
+                  return posnew2;
+                }
+                else if (movedir == 3 && this.game.level.getTile(this.x/SQUARE, this.y/SQUARE-1) == 0) { //up
+                  var posnew3:Position = new Position(x, y-SQUARE);
+                  return posnew3;
+                }
+                else if (movedir == 4 && this.game.level.getTile(this.x/SQUARE, this.y/SQUARE+1) == 0) { //down
+                  var posnew4:Position = new Position(x, y+SQUARE);
+                  return posnew4;
+                }
+                else { //stall
+                  var posnew5:Position = new Position(x, y);
+                  return posnew5;
+                }
+            }
+            var def:Position = new Position(x, y);
+            return def;
         }
         
         public function erase_recording():void {
