@@ -114,11 +114,13 @@ package
         }
 
         public function onClick():void {
-            resetPos();
-            erase_recording();
-            game.updateBlocks();
-            isSelected = true;
-            loadGraphic(sprite_down_selected);
+            if (game.isRecording) {
+                resetPos();
+                erase_recording();
+                game.updateBlocks();
+                isSelected = true;
+                loadGraphic(sprite_down_selected);
+            }
         }
 
         public function resetPos():void {
