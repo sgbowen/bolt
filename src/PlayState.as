@@ -29,29 +29,25 @@ package
             isPlaying = false;
             time_steps = 15;
             levelCurrent = 0;
-            levelNames = new Array("demo","tiles1","time","default");
+            levelNames = new Array("default","demo","tiles1","time","time","time");
 
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
 
             level = new LevelMap(levelNames[levelCurrent], this);
             time_steps = level.mapTime;
-            //level.draw();
             add(level);
             
-            //blockGroup = new FlxGroup();
-            //blockGroup.add(new Block(new Position(48, 48), new Position(240, 240), 0xff00ff, this));
-            //blockGroup.add(new Block(new Position(144, 48), new Position(336, 240), 0x00ffff, this));
-            //blockGroup.add(new Block(new Position(240, 48), new Position(432, 240), 0xffff00, this));
-            //blockGroup.add(new Block(new Position(336, 48), new Position(528, 240), 0x222222, this));
-            //add(new FlxText(0, 0, 100, "Hello, World!"));
-
             for each (var block:Block in level.blockGroup.members) {
                 add(block.destination);
             }
 
             add(level.blockGroup);
-
+            
+            var label:FlxText;
+            label = new FlxText(10, FlxG.height-50, FlxG.width, level.mapName);
+            label.size = 32;
+            add(label);
            
             record_button = new Record(720, 48, this);
             add(record_button);
@@ -101,6 +97,11 @@ package
             if (!stepBlocks(cur_time_step)) {
                 if (checkWin()) {
                     add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
+                    /*var label:FlxText;
+                    label = new FlxText(10, 10, FlxG.width, "You won!  Loading next level...");
+                    label.size = 32;
+                    add(label);*/
+
                     setTimeout(levelUp, 2000);
                 }
                 resetBlocks();
@@ -108,13 +109,13 @@ package
                 isPlaying = false;
                 return;
             }
-            if (checkWin()) {
+            /*if (checkWin()) {
                 var tex:FlxText;
                 tex = new FlxText(0, FlxG.height/2-100, FlxG.width, "You won!!!\nYou are truly a master of puzzling.");
                 tex.size = 32;
                 tex.alignment = "center";
                 add(tex);
-            } else if (!checkBlockOverlap()) {
+            }*/ else if (!checkBlockOverlap()) {
                 if (cur_time_step < time_steps) {
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
@@ -168,16 +169,25 @@ package
            add(bg);
             
             if(levelCurrent >= levelNames.length) {
+                var tex:FlxText;
+                tex = new FlxText(0, FlxG.height/2-100, FlxG.width, "You won!!!\nYou are truly a master of puzzling.");
+                tex.size = 32;
+                tex.alignment = "center";
+                add(tex);
                 return false; }
             level = new LevelMap(levelNames[levelCurrent], this);
             time_steps = level.mapTime;
-            //level.draw();
             add(level);
             
             for each (var block:Block in level.blockGroup.members) {
                 add(block.destination);
             }
             add(level.blockGroup);
+            
+            var label:FlxText;
+            label = new FlxText(10, FlxG.height-50, FlxG.width, level.mapName);
+            label.size = 32;
+            add(label);
            
             record_button = new Record(720, 48, this);
             add(record_button);

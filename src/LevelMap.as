@@ -35,10 +35,17 @@ package
         }
         else if(mapNameInput == "tiles1") {
         loadMap(new default_tiles1(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);
-        mapTime = 20;
+        mapTime = 12;
         mapName = "Tiles #1";
         blockGroup = new FlxGroup();
-        blockGroup.add(new Block(new Position((6*48), (6*48)), new Position((8*48), (6*48)), 0xff00ff, game));
+        blockGroup.add(new Block(new Position((6*48), (6*48)), new Position((8*48), (6*48)), 0x000000, game));
+        blockGroup.add(new Block(new Position((6*48), (8*48)), new Position((9*48), (9*48)), 0xff0000, game));
+        blockGroup.add(new Block(new Position((7*48), (7*48)), new Position((7*48), (7*48)), 0xff00ff, game));
+        blockGroup.add(new Block(new Position((7*48), (9*48)), new Position((9*48), (7*48)), 0x0000ff, game));
+        blockGroup.add(new Block(new Position((8*48), (6*48)), new Position((6*48), (8*48)), 0x00ffff, game));
+        blockGroup.add(new Block(new Position((8*48), (8*48)), new Position((8*48), (8*48)), 0x00ff00, game));
+        blockGroup.add(new Block(new Position((9*48), (7*48)), new Position((6*48), (6*48)), 0xffff00, game));
+        blockGroup.add(new Block(new Position((9*48), (9*48)), new Position((7*48), (9*48)), 0xffffff, game));
         }
         else if(mapNameInput == "time") {
         loadMap(new default_time(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);
@@ -61,7 +68,7 @@ package
         else {
         loadMap(new default_default(), large_tiles, TILE_LENGTH, TILE_LENGTH, FlxTilemap.AUTO);
         mapTime = 64;
-        mapName = "<default>";
+        mapName = "Level 1";
         blockGroup = new FlxGroup();
         blockGroup.add(new Block(new Position((3*48), (6*48)), new Position((11*48), (6*48)), 0xff8800, game));
         blockGroup.add(new Block(new Position((11*48), (8*48)), new Position((3*48), (8*48)), 0x884400, game));
