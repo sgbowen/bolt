@@ -29,7 +29,7 @@ package
             isPlaying = false;
             time_steps = 15;
             levelCurrent = 0;
-            levelNames = new Array("default","demo","tiles1","time","time","time");
+            levelNames = new Array("default","demo","tiles1","time");
 
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
@@ -104,11 +104,11 @@ package
                 return;
             }
             if (checkWin()) {
-                add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
-                /*var label:FlxText;
-                label = new FlxText(10, 10, FlxG.width, "You won!  Loading next level...");
-                label.size = 32;
-                add(label);*/
+                //add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
+                var labelf:FlxText;
+                labelf = new FlxText(10, 10, FlxG.width, "You won!  Loading next level...");
+                labelf.size = 32;
+                add(labelf);
 
                 play_button.deselect();
                 isPlaying = false;
@@ -128,6 +128,12 @@ package
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
                     return;
+                }
+                //testcode!
+                else {
+                play_button.deselect();
+                isPlaying = false;
+                resetBlocks();
                 }
             } else {
                 play_button.deselect();
