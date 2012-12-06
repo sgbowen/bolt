@@ -53,6 +53,7 @@ package
             add(record_button);
             add(play_button = new PlayButton(720, 96, this));
             add(counter = new Counter(720, 0, time_steps));
+            add(counter.txt);
         }
 
         public function updateBlocks():void {
@@ -200,6 +201,7 @@ package
             add(record_button);
             add(play_button = new PlayButton(720, 96, this));
             add(counter = new Counter(720, 0, time_steps));
+            add(counter.txt);
             return true;
         }
     }
