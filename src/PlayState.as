@@ -98,7 +98,8 @@ package
         }
 
         public function timerHandler():void {
-            if (stepBlocks(cur_time_step) < 0) {
+            var result:int;
+            if ((result = stepBlocks(cur_time_step)) < 0) {
                 play_button.deselect();
                 isPlaying = false;
                 return;
@@ -124,7 +125,7 @@ package
                 add(tex);
             }*/
             if (!checkBlockOverlap()) {
-                if (cur_time_step < time_steps) {
+                if (cur_time_step < time_steps && result != 0) {
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
                     return;
