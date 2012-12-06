@@ -73,7 +73,7 @@ package
 
         }
 
-        public function stepBlocks(time_step:int):Boolean { //modify this
+        public function stepBlocks(time_step:int):int { //modify this
             var steps_left:Boolean = false;
             for each (var block:Block in level.blockGroup.members) {
               for each (var other:Block in level.blockGroup.members)
@@ -83,48 +83,55 @@ package
                 if (block != other && (blockPos.x == other.x && blockPos.y == other.y) && (block.x == otherPos.x && block.y == otherPos.y))
                 { 
                     collide(block, other);
-                    return false;
+                    return -1;
                 }
               }
               if (block.step(cur_time_step) && !steps_left) {
                   steps_left = true;
               } 
             }
-            return steps_left;
+            if (steps_left)
+                return 1;
+            else
+                return 0;
         }
 
         public function timerHandler():void {
-            if (!stepBlocks(cur_time_step)) {
-                if (checkWin()) {
-                    add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
-                    /*var label:FlxText;
-                    label = new FlxText(10, 10, FlxG.width, "You won!  Loading next level...");
-                    label.size = 32;
-                    add(label);*/
-
-                    setTimeout(levelUp, 2000);
-                }
-                resetBlocks();
+            if (stepBlocks(cur_time_step) < 0) {
                 play_button.deselect();
                 isPlaying = false;
                 return;
             }
+            if (checkWin()) {
+                add(new FlxText(0, 0, 100, "You won!  Loading next level..."));
+                /*var label:FlxText;
+                label = new FlxText(10, 10, FlxG.width, "You won!  Loading next level...");
+                label.size = 32;
+                add(label);*/
+
+                play_button.deselect();
+                isPlaying = false;
+                setTimeout(levelUp, 2000);
+                return;
+            }
+
             /*if (checkWin()) {
                 var tex:FlxText;
                 tex = new FlxText(0, FlxG.height/2-100, FlxG.width, "You won!!!\nYou are truly a master of puzzling.");
                 tex.size = 32;
                 tex.alignment = "center";
                 add(tex);
-            }*/ else if (!checkBlockOverlap()) {
+            }*/
+            if (!checkBlockOverlap()) {
                 if (cur_time_step < time_steps) {
                     cur_time_step++;
                     setTimeout(timerHandler, 250);
                     return;
                 }
+            } else {
+                play_button.deselect();
+                isPlaying = false;
             }
-            resetBlocks();
-            play_button.deselect();
-            isPlaying = false;
         }
 
         public function collide(block:Block, other:Block):void {
