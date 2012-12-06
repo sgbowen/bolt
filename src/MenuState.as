@@ -19,7 +19,7 @@ package
             bg = new BackDrop(0, 0, backdrop_img);
             add(bg);
 
-            play_button = new FlxButton(250, 400, "Play!", this.start_game);
+            play_button = new FlxButton(200, 400, "Play!", this.start_game);
             play_button.loadGraphic(button_img);
             play_button.label.setFormat(null, 24, 0x333333, "center");
             play_button.labelOffset = new FlxPoint(0,34);
@@ -31,13 +31,16 @@ package
             credits_button.labelOffset = new FlxPoint(0,38);
             add(credits_button);
 
-            title = new FlxSprite(0, 100);
+            title = new FlxSprite(130, 100);
             title.loadGraphic(title_img);
             add(title);
         }
 
         public function start_game():void {
             FlxG.switchState(new PlayState);
+        }
+        public function show_instructions():void {
+            FlxG.switchState(new CreditsState);
         }
         public function show_credits():void {
             FlxG.switchState(new CreditsState);
